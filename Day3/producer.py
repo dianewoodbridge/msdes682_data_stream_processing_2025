@@ -31,7 +31,7 @@ except KeyError as e:
     print(f"Error: Missing environment variable {e}. Please check your .env file.", file=sys.stderr)
     sys.exit(1)
 
-def create_topic_if_not_exists(admin_client, topic_name, num_partitions=1):
+def create_topic_if_not_exists(admin_client, topic_name):
     """
     Creates a Kafka topic if it does not already exist.
     Waits for the creation to finish to prevent a race condition.
@@ -47,14 +47,14 @@ def create_topic_if_not_exists(admin_client, topic_name, num_partitions=1):
         print(f"Topic '{topic_name}' not found. Creating topic...")
         
         # Confluent Cloud manages the replication factor, so we don't set it.
-        new_topic = NewTopic(topic_name, num_partitions=num_partitions)
+        new_topic = NewTopic(topic_name)
         
         try:
             admin_client.create_topics([new_topic])
 
         except Exception as e:
             # Handle cases where topic creation fails, e.g., if it already exists
-            print(f"Failed to create topic '{topic}': {e}", file=sys.stderr)
+            print(f"Failed to create topic '{topic_name}': {e}", file=sys.stderr)
     else:
         print(f"Topic '{topic_name}' already exists.")
 
@@ -113,10 +113,12 @@ def run_producer_microservice(topic_name):
 
     except KeyboardInterrupt:
         print("Producer microservice stopped by user.")
+
     finally:
+        # finally block: This block is always executed, regardless an exception ...
         # Wait for any outstanding messages to be delivered and delivery reports received.
         producer.flush()
 
 if __name__ == '__main__':
-    topic_name = 'user.topic.v2'
+    topic_name = 'msds682.day3'
     run_producer_microservice(topic_name)

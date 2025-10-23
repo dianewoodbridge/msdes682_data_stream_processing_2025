@@ -78,5 +78,5 @@ def run_consumer_microservice(topic_name):
         consumer.close()
 
 if __name__ == '__main__':
-    topic_name = 'user.topic'
+    topic_name = 'msds682.day3'
     run_consumer_microservice(topic_name)
