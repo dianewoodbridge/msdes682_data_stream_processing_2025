@@ -116,14 +116,19 @@ dependencies:
   - zstandard=0.25.0
   - zstd=1.5.7
   - pip:
+      - attrs==25.4.0
+      - authlib==1.6.5
+      - avro==1.12.1
       - bcrypt==5.0.0
-      - confluent-kafka==2.12.0
+      - cachetools==6.2.1
+      - confluent-kafka==2.12.1
       - cryptography==46.0.3
       - deprecated==1.2.18
       - dotenv==0.9.9
       - fabric==3.2.2
       - fake==0.8
       - faker==37.11.0
+      - fastavro==1.12.1
       - invoke==2.2.1
       - paramiko==4.0.0
       - pycparser==2.23
