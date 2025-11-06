@@ -79,7 +79,7 @@ def produce_data(data: DataGenerator):
             topic=topic_name,
             key=str(message["id"]),
             value=json.dumps(message),
-            callback=delivery_report,
+            on_delivery=delivery_report,
         )
         producer.poll(0)
         time.sleep(0.5)
