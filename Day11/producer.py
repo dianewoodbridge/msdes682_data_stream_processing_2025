@@ -13,21 +13,21 @@ from confluent_kafka.serialization import StringSerializer
 from dotenv import load_dotenv
 
 load_dotenv()
-
 avro_schema_str = """
     {
         "type": "record",
-        "name": "SystemUsage",
-        "namespace": "edu.usfca.msdsai",
+        "name": "system_usage_new_value",
+        "namespace": "org.apache.flink.avro.generated.record",
         "fields": [
-            {"name": "id", "type": "string"},
-            {"name": "cpu_usage", "type": "float"},
-            {"name": "cpu_stats", "type":{"type": "array", "items": "float"}},
-            {"name": "memory_usage", "type": "float"},
-            {"name": "timestamp", "type": "long", "logicalType": "timestamp-millis"}
+            {"name": "id", "type": ["null", "string"], "default": null},
+            {"name": "cpu_usage", "type": ["null", "float"], "default": null},
+            {"name": "cpu_stats", "type": ["null", {"type": "array", "items": ["null", "float"]}], "default": null},
+            {"name": "memory_usage", "type": ["null", "float"], "default": null},
+            {"name": "timestamp", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null}
         ]
     }
 """
+
 
 def delivery_report(err, msg):
     """
