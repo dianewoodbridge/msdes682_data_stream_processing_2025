@@ -1,0 +1,8 @@
+{
+ "spec": {
+     "flinkConfiguration": {
+         "taskmanager.numberOfTaskSlots": "2",
+         "execution.checkpointing.interval": "90s"
+     }
+ }
+}

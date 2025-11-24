@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 import psutil
 import random
@@ -16,7 +15,7 @@ load_dotenv()
 avro_schema_str = """
     {
         "type": "record",
-        "name": "system_usage_new_value",
+        "name": "system_usage_day12_value",
         "namespace": "org.apache.flink.avro.generated.record",
         "fields": [
             {"name": "id", "type": ["null", "string"], "default": null},
@@ -66,7 +65,7 @@ def get_producer():
 
 def produce_system_usage_message(producer,
                                  record_count,
-                                 topic="system.usage.new"):
+                                 topic="system.usage.day12"):
     admin_client = AdminClient({
         'bootstrap.servers': os.environ['CONFLUENT_SERVER'],
         'security.protocol': 'SASL_SSL',
@@ -85,7 +84,7 @@ def produce_system_usage_message(producer,
     
     for i in range(record_count):
         try:
-            id = random.randint(1, 5)
+            id = random.randint(1, 3)
             
             current_time_ms = int(datetime.datetime.utcnow().timestamp() * 1000)
             
@@ -94,9 +93,11 @@ def produce_system_usage_message(producer,
                 "cpu_usage": float(psutil.cpu_percent()),
                 "cpu_stats": [float(x) for x in psutil.cpu_stats()],
                 "memory_usage": float(psutil.virtual_memory().percent),
-                "timestamp": current_time_ms  # ← Integer milliseconds, not string!
+                "timestamp": current_time_ms
             }
             
+            if(id == 3):
+                time.sleep(4 + random.random())
             producer.produce(
                 topic=topic,
                 key=message["id"],
